@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lucas Esteves - Portfolio & CV">
-    <meta name="author" content="Lucas Esteves">
-    <title>Lucas Esteves - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Navigation -->
+---
+layout: default
+title: Lucas Esteves - Portfolio
+---
+
+<!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">Lucas Esteves</div>
+            <div class="nav-brand">{{ site.author }}</div>
             <ul class="nav-menu">
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -33,17 +26,17 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Hi, I'm <span class="highlight">Lucas Esteves</span></h1>
-                <p class="hero-subtitle">Software Developer | Tech Enthusiast</p>
+                <h1 class="hero-title">Hi, I'm <span class="highlight">{{ site.author }}</span></h1>
+                <p class="hero-subtitle">{{ site.description }}</p>
                 <div class="hero-buttons">
                     <a href="#contact" class="btn btn-primary">Get In Touch</a>
                     <a href="#projects" class="btn btn-secondary">View Projects</a>
                 </div>
                 <div class="social-links">
-                    <a href="https://github.com/lucasestevesr" target="_blank" rel="noopener" aria-label="GitHub">
+                    <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://linkedin.com/in/lucasestevesr" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <a href="https://linkedin.com/in/{{ site.linkedin_username }}" target="_blank" rel="noopener" aria-label="LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
                 </div>
@@ -140,21 +133,21 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h3>Email</h3>
-                            <p>contact@example.com</p> <!-- TODO: Update with your email -->
+                            <p>{{ site.email }}</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fab fa-github"></i>
                         <div>
                             <h3>GitHub</h3>
-                            <p><a href="https://github.com/lucasestevesr" target="_blank">@lucasestevesr</a></p>
+                            <p><a href="https://github.com/{{ site.github_username }}" target="_blank">@{{ site.github_username }}</a></p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fab fa-linkedin"></i>
                         <div>
                             <h3>LinkedIn</h3>
-                            <p><a href="https://linkedin.com/in/lucasestevesr" target="_blank">Lucas Esteves</a></p>
+                            <p><a href="https://linkedin.com/in/{{ site.linkedin_username }}" target="_blank">{{ site.author }}</a></p>
                         </div>
                     </div>
                 </div>
@@ -165,14 +158,10 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Lucas Esteves. All rights reserved.</p>
+            <p>&copy; 2024 {{ site.author }}. All rights reserved.</p>
             <div class="footer-links">
-                <a href="https://github.com/lucasestevesr" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/lucasestevesr" target="_blank">LinkedIn</a>
+                <a href="https://github.com/{{ site.github_username }}" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/{{ site.linkedin_username }}" target="_blank">LinkedIn</a>
             </div>
         </div>
     </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>

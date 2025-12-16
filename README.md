@@ -1,6 +1,6 @@
 # lucasestevesr.github.io
 
-Personal portfolio and CV website hosted on GitHub Pages.
+Personal portfolio and CV website hosted on GitHub Pages, built with Jekyll.
 
 ## Features
 
@@ -10,6 +10,7 @@ Personal portfolio and CV website hosted on GitHub Pages.
 - 🔗 LinkedIn profile integration
 - ⚡ Fast and lightweight
 - 🎯 Smooth scrolling and animations
+- 🛠️ Built with Jekyll for easy content management
 
 ## Sections
 
@@ -21,7 +22,8 @@ Personal portfolio and CV website hosted on GitHub Pages.
 
 ## Technologies Used
 
-- HTML5
+- Jekyll 3.10.0 (GitHub Pages compatible)
+- HTML5 with Liquid templating
 - CSS3 (with CSS Variables and Grid/Flexbox)
 - Vanilla JavaScript
 - GitHub API
@@ -29,7 +31,30 @@ Personal portfolio and CV website hosted on GitHub Pages.
 
 ## Local Development
 
-Simply open `index.html` in your browser to view the site locally.
+### Prerequisites
+
+- Ruby 3.2.3 or higher
+- Bundler
+
+### Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/lucasestevesr/lucasestevesr.github.io.git
+   cd lucasestevesr.github.io
+   ```
+
+2. Install dependencies:
+   ```bash
+   bundle install
+   ```
+
+3. Serve the site locally:
+   ```bash
+   bundle exec jekyll serve
+   ```
+
+4. Open your browser and visit `http://localhost:4000`
 
 ## GitHub API Integration
 
@@ -39,10 +64,23 @@ The site automatically fetches and displays your public GitHub repositories usin
 
 To customize this portfolio for yourself:
 
-1. Update the `GITHUB_USERNAME` in `script.js`
-2. Modify the content in `index.html` (name, bio, experience, skills, etc.)
-3. Update social media links
-4. Adjust colors in `styles.css` (CSS variables in `:root`)
+1. Update `_config.yml` with your information:
+   - `title`: Your name
+   - `description`: Your tagline
+   - `author`: Your full name
+   - `email`: Your email address
+   - `github_username`: Your GitHub username
+   - `linkedin_username`: Your LinkedIn username
+
+2. Modify the content in `index.html` (experience, skills, etc.)
+
+3. Update the GitHub username in `assets/js/script.js` if needed
+
+4. Adjust colors in `assets/css/styles.css` (CSS variables in `:root`)
+
+## Deployment
+
+This site is configured for GitHub Pages deployment. Simply push your changes to the main branch, and GitHub Pages will automatically build and deploy your site.
 
 ## License
 
