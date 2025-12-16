@@ -76,7 +76,8 @@ const translations_es = {
         title: "Ponte en Contacto",
         email: "Correo",
         github: "GitHub",
-        linkedin: "LinkedIn"
+        linkedin: "LinkedIn",
+        whatsapp: "WhatsApp"
     },
     
     // Footer
