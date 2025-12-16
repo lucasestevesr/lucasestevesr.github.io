@@ -52,17 +52,6 @@ if (hamburger) {
     });
 }
 
-// Language switcher event listeners
-document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const lang = btn.getAttribute('data-lang');
-        setLanguage(lang);
-        // Reload dynamic content with new language
-        fetchGitHubProjects();
-        fetchLinkedInData();
-    });
-});
-
 // Smooth Scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -274,6 +263,9 @@ function fetchLinkedInExperience() {
             </div>
         </div>
     `;
+    
+    // Animate timeline items after insertion
+    animateTimelineItems();
 }
 
 function fetchLinkedInEducation() {
@@ -298,6 +290,20 @@ function fetchLinkedInEducation() {
             </div>
         </div>
     `;
+    
+    // Animate timeline items after insertion
+    animateTimelineItems();
+}
+
+// Helper function to animate timeline items
+function animateTimelineItems() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-20px)';
+        item.style.transition = `opacity 0.6s ease-out ${index * 0.2}s, transform 0.6s ease-out ${index * 0.2}s`;
+        observer.observe(item);
+    });
 }
 
 // Intersection Observer for scroll animations
@@ -319,6 +325,17 @@ const observer = new IntersectionObserver((entries) => {
 document.addEventListener('DOMContentLoaded', () => {
     // Set initial language
     setLanguage(currentLanguage);
+    
+    // Language switcher event listeners
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+            // Reload dynamic content with new language
+            fetchGitHubProjects();
+            fetchLinkedInData();
+        });
+    });
     
     // Fetch GitHub projects when page loads
     fetchGitHubProjects();
@@ -343,17 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.transition = `opacity 0.6s ease-out ${index * 0.1}s, transform 0.6s ease-out ${index * 0.1}s`;
         observer.observe(card);
     });
-    
-    // Animate timeline items (need to re-observe after dynamic content loads)
-    setTimeout(() => {
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        timelineItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateX(-20px)';
-            item.style.transition = `opacity 0.6s ease-out ${index * 0.2}s, transform 0.6s ease-out ${index * 0.2}s`;
-            observer.observe(item);
-        });
-    }, 500);
 });
 
 // Add current year to footer
