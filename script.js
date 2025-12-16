@@ -47,7 +47,8 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// GitHub API Integration
+// GitHub API Integration Configuration
+// TODO: Update this with your GitHub username
 const GITHUB_USERNAME = 'lucasestevesr';
 const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos`;
 
@@ -81,7 +82,7 @@ async function fetchGitHubProjects() {
     try {
         const response = await fetch(GITHUB_API_URL, {
             headers: {
-                'Accept': 'application/vnd.github.v3+json'
+                'Accept': 'application/vnd.github+json'
             }
         });
         
@@ -231,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Add current year to footer
+// TODO: Update the name to match your own
 const updateFooterYear = () => {
     const year = new Date().getFullYear();
     const footerText = document.querySelector('.footer p');
