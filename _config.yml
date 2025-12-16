@@ -1,0 +1,25 @@
+title: Lucas Esteves - Portfolio
+description: Software Developer | Tech Enthusiast - Portfolio & CV
+author: Lucas Esteves
+email: contact@example.com  # TODO: Update with your actual email
+baseurl: ""
+url: "https://lucasestevesr.github.io"
+
+# Social links
+github_username: lucasestevesr
+linkedin_username: lucasestevesr
+
+# Build settings
+markdown: kramdown
+theme: null
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
