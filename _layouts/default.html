@@ -11,6 +11,14 @@
 </head>
 <body>
     {{ content }}
+    <script>
+        // Inject site configuration into JavaScript
+        window.siteConfig = {
+            author: "{{ site.author }}",
+            githubUsername: "{{ site.github_username }}",
+            linkedinUsername: "{{ site.linkedin_username }}"
+        };
+    </script>
     <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
 </body>
 </html>

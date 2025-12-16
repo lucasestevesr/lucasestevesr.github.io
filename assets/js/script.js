@@ -48,8 +48,8 @@ window.addEventListener('scroll', () => {
 });
 
 // GitHub API Integration Configuration
-// TODO: Update this with your GitHub username
-const GITHUB_USERNAME = 'lucasestevesr';
+// Configuration is injected from Jekyll's _config.yml via window.siteConfig
+const GITHUB_USERNAME = window.siteConfig?.githubUsername || 'lucasestevesr';
 const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos`;
 
 // Language colors (common programming languages)
@@ -232,12 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Add current year to footer
-// TODO: Update the name to match your own
 const updateFooterYear = () => {
     const year = new Date().getFullYear();
     const footerText = document.querySelector('.footer p');
+    const authorName = window.siteConfig?.author || 'Lucas Esteves';
     if (footerText) {
-        footerText.textContent = `© ${year} Lucas Esteves. All rights reserved.`;
+        footerText.textContent = `© ${year} ${authorName}. All rights reserved.`;
     }
 };
 
