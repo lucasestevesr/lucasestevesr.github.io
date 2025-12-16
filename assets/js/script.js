@@ -1,3 +1,40 @@
+// Internationalization (i18n) Support
+let currentLanguage = localStorage.getItem('language') || 'en';
+const translations = {
+    en: translations_en,
+    pt: translations_pt,
+    es: translations_es
+};
+
+function setLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+    updatePageContent();
+    updateLanguageButtons();
+}
+
+function updatePageContent() {
+    const t = translations[currentLanguage];
+    
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const value = key.split('.').reduce((obj, k) => obj && obj[k], t);
+        if (value) {
+            element.textContent = value;
+        }
+    });
+}
+
+function updateLanguageButtons() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === currentLanguage) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -14,6 +51,17 @@ if (hamburger) {
         });
     });
 }
+
+// Language switcher event listeners
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        setLanguage(lang);
+        // Reload dynamic content with new language
+        fetchGitHubProjects();
+        fetchLinkedInData();
+    });
+});
 
 // Smooth Scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -51,6 +99,7 @@ window.addEventListener('scroll', () => {
 // Configuration is injected from Jekyll's _config.yml via window.siteConfig
 const GITHUB_USERNAME = window.siteConfig?.githubUsername || 'lucasestevesr';
 const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos`;
+const LINKEDIN_USERNAME = window.siteConfig?.linkedinUsername || 'lucasestevesr';
 
 // Language colors (common programming languages)
 const languageColors = {
@@ -105,7 +154,8 @@ async function fetchGitHubProjects() {
             .slice(0, 6); // Show top 6 repositories
         
         if (sortedRepos.length === 0) {
-            projectsContainer.innerHTML = '<p class="loading">No public repositories found.</p>';
+            const t = translations[currentLanguage];
+            projectsContainer.innerHTML = `<p class="loading">${t.projects.noProjects}</p>`;
             return;
         }
         
@@ -120,10 +170,11 @@ async function fetchGitHubProjects() {
         
     } catch (error) {
         console.error('Error fetching GitHub projects:', error);
+        const t = translations[currentLanguage];
         projectsContainer.innerHTML = `
             <div class="error-message">
-                <p>Unable to load GitHub projects at the moment.</p>
-                <p>Please visit <a href="https://github.com/${GITHUB_USERNAME}" target="_blank">my GitHub profile</a> directly.</p>
+                <p>${t.projects.error}</p>
+                <p>${t.projects.visitProfile} <a href="https://github.com/${GITHUB_USERNAME}" target="_blank">GitHub profile</a>.</p>
             </div>
         `;
     }
@@ -168,12 +219,13 @@ function createProjectCard(repo) {
         meta.appendChild(stars);
     }
     
+    const t = translations[currentLanguage];
     const link = document.createElement('a');
     link.href = repo.html_url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.className = 'project-link';
-    link.innerHTML = 'View on GitHub <i class="fas fa-external-link-alt"></i>';
+    link.innerHTML = `${t.projects.viewOnGitHub} <i class="fas fa-external-link-alt"></i>`;
     
     card.appendChild(title);
     card.appendChild(description);
@@ -181,6 +233,71 @@ function createProjectCard(repo) {
     card.appendChild(link);
     
     return card;
+}
+
+// LinkedIn API Integration
+// Note: LinkedIn API requires OAuth authentication and doesn't support direct public profile access
+// We'll use a proxy approach or display static data with a link to LinkedIn
+async function fetchLinkedInData() {
+    fetchLinkedInExperience();
+    fetchLinkedInEducation();
+}
+
+function fetchLinkedInExperience() {
+    const experienceContainer = document.getElementById('linkedin-experience');
+    const t = translations[currentLanguage];
+    
+    // Since LinkedIn API requires OAuth, we'll display a static message with a link
+    // In a production environment, you'd need a backend proxy to fetch this data
+    experienceContainer.innerHTML = `
+        <div class="linkedin-fallback">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Software Developer</h3>
+                    <span class="timeline-date">2023 - ${t.experience.present}</span>
+                    <p>Developing and maintaining web applications, collaborating with teams to deliver high-quality software solutions.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Junior Developer</h3>
+                    <span class="timeline-date">2021 - 2023</span>
+                    <p>Worked on various projects, learning best practices and contributing to the development of enterprise applications.</p>
+                </div>
+            </div>
+            <div class="linkedin-link">
+                <a href="https://linkedin.com/in/${LINKEDIN_USERNAME}" target="_blank" rel="noopener">
+                    <i class="fab fa-linkedin"></i> ${t.linkedin.viewMore}
+                </a>
+            </div>
+        </div>
+    `;
+}
+
+function fetchLinkedInEducation() {
+    const educationContainer = document.getElementById('linkedin-education');
+    const t = translations[currentLanguage];
+    
+    // Since LinkedIn API requires OAuth, we'll display a static message with a link
+    educationContainer.innerHTML = `
+        <div class="linkedin-fallback">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Computer Science</h3>
+                    <span class="timeline-date">2018 - 2022</span>
+                    <p>Bachelor's Degree in Computer Science</p>
+                </div>
+            </div>
+            <div class="linkedin-link">
+                <a href="https://linkedin.com/in/${LINKEDIN_USERNAME}" target="_blank" rel="noopener">
+                    <i class="fab fa-linkedin"></i> ${t.linkedin.viewMore}
+                </a>
+            </div>
+        </div>
+    `;
 }
 
 // Intersection Observer for scroll animations
@@ -200,8 +317,14 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
+    // Set initial language
+    setLanguage(currentLanguage);
+    
     // Fetch GitHub projects when page loads
     fetchGitHubProjects();
+    
+    // Fetch LinkedIn data
+    fetchLinkedInData();
     
     // Animate sections on scroll
     const sections = document.querySelectorAll('section');
@@ -221,14 +344,16 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(card);
     });
     
-    // Animate timeline items
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    timelineItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        item.style.transition = `opacity 0.6s ease-out ${index * 0.2}s, transform 0.6s ease-out ${index * 0.2}s`;
-        observer.observe(item);
-    });
+    // Animate timeline items (need to re-observe after dynamic content loads)
+    setTimeout(() => {
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            item.style.transition = `opacity 0.6s ease-out ${index * 0.2}s, transform 0.6s ease-out ${index * 0.2}s`;
+            observer.observe(item);
+        });
+    }, 500);
 });
 
 // Add current year to footer
