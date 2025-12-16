@@ -562,14 +562,12 @@ section:nth-child(even) {
     }
 
     .language-switcher {
-        position: absolute;
-        top: 100%;
-        right: 20px;
-        margin-top: 1rem;
-        background-color: var(--bg-white);
-        padding: 0.5rem;
-        border-radius: 8px;
-        box-shadow: var(--shadow);
+        margin-left: 0;
+        order: 2;
+    }
+    
+    .navbar .container {
+        flex-wrap: wrap;
     }
 
     .hero-title {

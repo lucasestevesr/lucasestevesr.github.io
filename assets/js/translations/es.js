@@ -87,7 +87,26 @@ const translations_es = {
     // LinkedIn Integration
     linkedin: {
         recommendations: "Recomendaciones",
-        viewMore: "Ver más en LinkedIn"
+        viewMore: "Ver más en LinkedIn",
+        experience: {
+            job1: {
+                title: "Desarrollador de Software",
+                period: "2023 - Presente",
+                description: "Desarrollando y manteniendo aplicaciones web, colaborando con equipos para entregar soluciones de software de alta calidad."
+            },
+            job2: {
+                title: "Desarrollador Junior",
+                period: "2021 - 2023",
+                description: "Trabajé en varios proyectos, aprendiendo mejores prácticas y contribuyendo al desarrollo de aplicaciones empresariales."
+            }
+        },
+        education: {
+            degree1: {
+                title: "Ciencias de la Computación",
+                period: "2018 - 2022",
+                description: "Licenciatura en Ciencias de la Computación"
+            }
+        }
     }
 };
 

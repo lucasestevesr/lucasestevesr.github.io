@@ -1,10 +1,17 @@
 // Internationalization (i18n) Support
 let currentLanguage = localStorage.getItem('language') || 'en';
-const translations = {
-    en: translations_en,
-    pt: translations_pt,
-    es: translations_es
-};
+
+// Check if translation objects are loaded, with error handling
+const translations = {};
+if (typeof translations_en !== 'undefined') translations.en = translations_en;
+if (typeof translations_pt !== 'undefined') translations.pt = translations_pt;
+if (typeof translations_es !== 'undefined') translations.es = translations_es;
+
+// Fallback to English if translations are not loaded
+if (Object.keys(translations).length === 0) {
+    console.error('No translation files loaded');
+    currentLanguage = 'en';
+}
 
 function setLanguage(lang) {
     currentLanguage = lang;
@@ -15,6 +22,12 @@ function setLanguage(lang) {
 
 function updatePageContent() {
     const t = translations[currentLanguage];
+    
+    // Handle case where translations for current language are not available
+    if (!t) {
+        console.error(`Translations for language '${currentLanguage}' not found`);
+        return;
+    }
     
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
@@ -236,24 +249,27 @@ function fetchLinkedInExperience() {
     const experienceContainer = document.getElementById('linkedin-experience');
     const t = translations[currentLanguage];
     
+    if (!t) return;
+    
     // Since LinkedIn API requires OAuth, we'll display a static message with a link
     // In a production environment, you'd need a backend proxy to fetch this data
+    const exp = t.linkedin.experience;
     experienceContainer.innerHTML = `
         <div class="linkedin-fallback">
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h3>Software Developer</h3>
-                    <span class="timeline-date">2023 - ${t.experience.present}</span>
-                    <p>Developing and maintaining web applications, collaborating with teams to deliver high-quality software solutions.</p>
+                    <h3>${exp.job1.title}</h3>
+                    <span class="timeline-date">${exp.job1.period}</span>
+                    <p>${exp.job1.description}</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h3>Junior Developer</h3>
-                    <span class="timeline-date">2021 - 2023</span>
-                    <p>Worked on various projects, learning best practices and contributing to the development of enterprise applications.</p>
+                    <h3>${exp.job2.title}</h3>
+                    <span class="timeline-date">${exp.job2.period}</span>
+                    <p>${exp.job2.description}</p>
                 </div>
             </div>
             <div class="linkedin-link">
@@ -272,15 +288,18 @@ function fetchLinkedInEducation() {
     const educationContainer = document.getElementById('linkedin-education');
     const t = translations[currentLanguage];
     
+    if (!t) return;
+    
     // Since LinkedIn API requires OAuth, we'll display a static message with a link
+    const edu = t.linkedin.education;
     educationContainer.innerHTML = `
         <div class="linkedin-fallback">
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h3>Computer Science</h3>
-                    <span class="timeline-date">2018 - 2022</span>
-                    <p>Bachelor's Degree in Computer Science</p>
+                    <h3>${edu.degree1.title}</h3>
+                    <span class="timeline-date">${edu.degree1.period}</span>
+                    <p>${edu.degree1.description}</p>
                 </div>
             </div>
             <div class="linkedin-link">

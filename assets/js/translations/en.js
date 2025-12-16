@@ -87,7 +87,26 @@ const translations_en = {
     // LinkedIn Integration
     linkedin: {
         recommendations: "Recommendations",
-        viewMore: "View more on LinkedIn"
+        viewMore: "View more on LinkedIn",
+        experience: {
+            job1: {
+                title: "Software Developer",
+                period: "2023 - Present",
+                description: "Developing and maintaining web applications, collaborating with teams to deliver high-quality software solutions."
+            },
+            job2: {
+                title: "Junior Developer",
+                period: "2021 - 2023",
+                description: "Worked on various projects, learning best practices and contributing to the development of enterprise applications."
+            }
+        },
+        education: {
+            degree1: {
+                title: "Computer Science",
+                period: "2018 - 2022",
+                description: "Bachelor's Degree in Computer Science"
+            }
+        }
     }
 };
 
