@@ -1,0 +1,43 @@
+---
+title: "How to structure a project with Clean Architecture"
+description: "A pragmatic folder strategy to separate domain, use cases, and infrastructure in .NET solutions."
+date: 2026-01-24
+tags: ["architecture", "clean-architecture", "dotnet", "design"]
+lang: "en"
+draft: false
+---
+
+Clean Architecture is less about more layers and more about **dependency direction**.
+
+## Suggested structure
+
+```text
+src/
+  App.Domain/
+  App.Application/
+  App.Infrastructure/
+  App.Api/
+```
+
+- `Domain`: entities, value objects, core rules.
+- `Application`: use cases, contracts, orchestration.
+- `Infrastructure`: persistence, messaging, third-party clients.
+- `Api`: endpoints and composition root.
+
+## Principles worth enforcing
+
+1. Domain does not depend on frameworks.
+2. Use cases depend on abstractions.
+3. Business logic stays out of controllers.
+
+## Example contract
+
+```csharp
+public interface IOrderRepository
+{
+    Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task SaveAsync(Order order, CancellationToken cancellationToken);
+}
+```
+
+This separation helps teams evolve features and tests with less friction.

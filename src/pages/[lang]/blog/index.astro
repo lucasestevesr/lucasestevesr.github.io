@@ -1,0 +1,141 @@
+---
+import { getCollection } from "astro:content";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getTranslation, isValidLang } from "@/i18n";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getLangStaticPaths } from "@/utils/lang";
+
+export function getStaticPaths() {
+  return getLangStaticPaths();
+}
+
+const { lang } = Astro.params;
+
+if (!lang || !isValidLang(lang)) {
+  throw new Error(`Invalid language route: ${lang}`);
+}
+
+const t = getTranslation(lang);
+const posts = (await getCollection("blog", ({ data }) => data.lang === lang && !data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<BaseLayout lang={lang} activeNav="blog" title={t.sections.blogTitle} path="blog/">
+  <section class="mt-10 md:mt-14">
+    <SectionHeading title={t.sections.blogTitle} description={t.sections.blogDescription} />
+
+    <div class="surface mb-8 grid gap-4 p-4 md:grid-cols-[1fr_220px] md:items-end md:p-6">
+      <label class="block">
+        {
+          t.blog.searchLabel && (
+            <span class="mb-2 block text-sm font-semibold" style="color:var(--text);">{t.blog.searchLabel}</span>
+          )
+        }
+        <input
+          id="blog-search"
+          type="search"
+          placeholder={t.blog.searchPlaceholder}
+          class="w-full rounded-lg border px-3 py-2.5 text-sm outline-none"
+          style="border-color:var(--border);background-color:var(--bg);color:var(--text);"
+        />
+      </label>
+
+      <label class="block">
+        {
+          t.blog.sortLabel && (
+            <span class="mb-2 block text-sm font-semibold" style="color:var(--text);">{t.blog.sortLabel}</span>
+          )
+        }
+        <select
+          id="blog-sort"
+          class="w-full rounded-lg border px-3 py-2.5 text-sm outline-none"
+          style="border-color:var(--border);background-color:var(--bg);color:var(--text);"
+        >
+          <option value="desc">{t.blog.newestFirst}</option>
+          <option value="asc">{t.blog.oldestFirst}</option>
+        </select>
+      </label>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <>
+          <div id="blog-list" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {
+              posts.map((post) => (
+                <div
+                  data-post
+                  data-date={String(post.data.date.getTime())}
+                  data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(" ")} ${post.data.date.getFullYear()}`.toLowerCase()}
+                >
+                  <PostCard post={post} lang={lang} t={t} />
+                </div>
+              ))
+            }
+          </div>
+          <p id="blog-empty" class="surface mt-6 hidden p-6 text-muted">{t.blog.noResults}</p>
+        </>
+      ) : (
+        <p class="surface p-6 text-muted">{t.blog.noPosts}</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const input = document.querySelector("#blog-search");
+    const sortFilter = document.querySelector("#blog-sort");
+    const list = document.querySelector("#blog-list");
+    const cards = Array.from(document.querySelectorAll("[data-post]"));
+    const emptyState = document.querySelector("#blog-empty");
+
+    if (
+      !(input instanceof HTMLInputElement) ||
+      !(sortFilter instanceof HTMLSelectElement) ||
+      !(list instanceof HTMLElement) ||
+      cards.length === 0
+    ) {
+      return;
+    }
+
+    const applyFilters = () => {
+      const term = input.value.trim().toLowerCase();
+      const sortDirection = sortFilter.value;
+      let visibleCount = 0;
+      const visibleCards = [];
+
+      cards.forEach((card) => {
+        const searchText = card.getAttribute("data-search") ?? "";
+        const matchesTerm = term.length === 0 || searchText.includes(term);
+        const visible = matchesTerm;
+        card.classList.toggle("hidden", !visible);
+        if (visible) {
+          visibleCount += 1;
+          visibleCards.push(card);
+        }
+      });
+
+      visibleCards
+        .sort((a, b) => {
+          const aDate = Number(a.getAttribute("data-date") ?? "0");
+          const bDate = Number(b.getAttribute("data-date") ?? "0");
+          return sortDirection === "asc" ? aDate - bDate : bDate - aDate;
+        })
+        .forEach((card) => {
+          list.appendChild(card);
+        });
+
+      if (emptyState instanceof HTMLElement) {
+        emptyState.classList.toggle("hidden", visibleCount > 0);
+      }
+    };
+
+    input.addEventListener("input", applyFilters);
+    sortFilter.addEventListener("change", applyFilters);
+
+    applyFilters();
+  })();
+</script>

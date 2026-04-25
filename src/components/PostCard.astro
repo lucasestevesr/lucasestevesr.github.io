@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Lang, Translation } from "@/i18n/types";
+import { formatDate } from "@/utils/date";
+import { getReadingTime } from "@/utils/readingTime";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  lang: Lang;
+  t: Translation;
+}
+
+const { post, lang, t } = Astro.props;
+const [, ...slugParts] = post.slug.split("/");
+const slug = slugParts.join("/");
+const href = `/${lang}/blog/${slug}/`;
+const readingTime = getReadingTime(post.body);
+---
+
+<article class="surface flex h-full flex-col p-6 transition-colors duration-200 hover:bg-[var(--surface-soft)]">
+  <p class="text-xs uppercase tracking-[0.18em] text-muted">
+    {formatDate(post.data.date, t.locale)} · {readingTime} {t.blog.minutes}
+  </p>
+  <h3 class="mt-3 text-xl font-semibold" style="color:var(--text);">{post.data.title}</h3>
+  <p class="mt-3 text-sm leading-7 text-muted">{post.data.description}</p>
+
+  <div class="mt-4 flex flex-wrap gap-2">
+    {
+      post.data.tags.map((tag) => (
+        <span class="chip">
+          #{tag}
+        </span>
+      ))
+    }
+  </div>
+
+  <a href={href} class="mt-6 inline-flex text-sm font-semibold hover:opacity-70" style="color:var(--text);">
+    {t.blog.readMore}
+  </a>
+</article>

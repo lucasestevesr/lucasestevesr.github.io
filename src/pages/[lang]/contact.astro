@@ -1,0 +1,77 @@
+---
+import { profile } from "@/data/profile";
+import { getTranslation, isValidLang } from "@/i18n";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getLangStaticPaths } from "@/utils/lang";
+
+export function getStaticPaths() {
+  return getLangStaticPaths();
+}
+
+const { lang } = Astro.params;
+
+if (!lang || !isValidLang(lang)) {
+  throw new Error(`Invalid language route: ${lang}`);
+}
+
+const t = getTranslation(lang);
+---
+
+<BaseLayout lang={lang} activeNav="contact" title={t.sections.contactTitle} path="">
+  <section class="mt-10 md:mt-14">
+    <h1 class="sr-only">{t.sections.contactTitle}</h1>
+
+    <div class="surface flex flex-wrap justify-center gap-3 p-6 md:p-8">
+      <a
+        href={profile.email}
+        class="inline-flex items-center justify-center leading-none hover:opacity-70"
+        aria-label={t.contact.email}
+        title={t.contact.email}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          class="h-8 w-8"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="M3 8l9 6 9-6"></path>
+        </svg>
+      </a>
+
+      <a
+        href={profile.linkedin}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center justify-center leading-none hover:opacity-70"
+        aria-label={t.contact.linkedin}
+        title={t.contact.linkedin}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8" aria-hidden="true">
+          <path d="M6.94 8.5v9h-3v-9h3Zm.2-2.78c0 .95-.72 1.72-1.7 1.72a1.7 1.7 0 1 1 1.7-1.72Zm4.8 2.78v1.23h.04c.42-.8 1.44-1.65 2.97-1.65 3.17 0 3.75 2.02 3.75 4.65v4.77h-3v-4.23c0-1.01-.02-2.31-1.44-2.31-1.44 0-1.66 1.08-1.66 2.24v4.3h-3v-9h2.34Z"></path>
+        </svg>
+      </a>
+
+      <a
+        href={profile.github}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center justify-center leading-none hover:opacity-70"
+        aria-label={t.contact.github}
+        title={t.contact.github}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8" aria-hidden="true">
+          <path
+            fill-rule="evenodd"
+            d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.21.68-.48v-1.7c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.61.07-.61 1 .07 1.52 1.01 1.52 1.01.88 1.49 2.31 1.06 2.87.81.09-.64.35-1.06.63-1.3-2.22-.25-4.55-1.09-4.55-4.87 0-1.08.4-1.96 1.03-2.65-.11-.25-.45-1.27.1-2.64 0 0 .84-.26 2.75 1.01a9.66 9.66 0 0 1 5 0c1.91-1.27 2.75-1.01 2.75-1.01.55 1.37.21 2.39.1 2.64.64.69 1.03 1.57 1.03 2.65 0 3.79-2.33 4.62-4.56 4.86.36.3.68.9.68 1.82v2.7c0 .27.18.57.69.47A10 10 0 0 0 12 2Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+    </div>
+    <p class="mt-4 text-center text-sm text-muted">{t.contact.helper}</p>
+  </section>
+</BaseLayout>

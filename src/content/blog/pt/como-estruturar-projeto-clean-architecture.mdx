@@ -1,0 +1,43 @@
+---
+title: "Como estruturar um projeto com Clean Architecture"
+description: "Uma estrutura simples para separar domínio, casos de uso e infraestrutura em aplicações .NET."
+date: 2026-01-24
+tags: ["arquitetura", "clean-architecture", "dotnet", "boas-praticas"]
+lang: "pt"
+draft: false
+---
+
+Clean Architecture não é sobre quantidade de camadas, e sim sobre **direção de dependência**.
+
+## Estrutura base
+
+```text
+src/
+  App.Domain/
+  App.Application/
+  App.Infrastructure/
+  App.Api/
+```
+
+- `Domain`: entidades, value objects e regras centrais.
+- `Application`: casos de uso, contratos e orquestração.
+- `Infrastructure`: persistência, mensageria, clientes externos.
+- `Api`: controllers/endpoints e composição.
+
+## Princípios que ajudam no dia a dia
+
+1. O domínio não conhece framework.
+2. Casos de uso dependem de abstrações, não de implementações.
+3. Regras de negócio ficam fora de controllers.
+
+## Exemplo simples de contrato
+
+```csharp
+public interface IOrderRepository
+{
+    Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task SaveAsync(Order order, CancellationToken cancellationToken);
+}
+```
+
+Com essa separação, evoluir testes e trocar detalhes técnicos fica mais previsível.

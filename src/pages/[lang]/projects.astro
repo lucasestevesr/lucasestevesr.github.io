@@ -1,0 +1,31 @@
+---
+import ProjectCard from "@/components/ProjectCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { projectsByLang } from "@/data/projects";
+import { getTranslation, isValidLang } from "@/i18n";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getLangStaticPaths } from "@/utils/lang";
+
+export function getStaticPaths() {
+  return getLangStaticPaths();
+}
+
+const { lang } = Astro.params;
+
+if (!lang || !isValidLang(lang)) {
+  throw new Error(`Invalid language route: ${lang}`);
+}
+
+const t = getTranslation(lang);
+const projects = projectsByLang[lang];
+---
+
+<BaseLayout lang={lang} activeNav="projects" title={t.sections.projectsTitle} path="projects/">
+  <section class="mt-10 md:mt-14">
+    <SectionHeading title={t.sections.projectsTitle} description={t.sections.projectsDescription} />
+
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {projects.map((project) => <ProjectCard project={project} t={t} />)}
+    </div>
+  </section>
+</BaseLayout>

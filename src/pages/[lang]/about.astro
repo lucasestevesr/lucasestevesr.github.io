@@ -1,0 +1,60 @@
+---
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getTranslation, isValidLang } from "@/i18n";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getLangStaticPaths } from "@/utils/lang";
+
+export function getStaticPaths() {
+  return getLangStaticPaths();
+}
+
+const { lang } = Astro.params;
+
+if (!lang || !isValidLang(lang)) {
+  throw new Error(`Invalid language route: ${lang}`);
+}
+
+const t = getTranslation(lang);
+
+const expertise = [
+  ".NET",
+  "C#",
+  "SQL Server",
+  "Azure",
+  "Docker",
+  "Kubernetes",
+  "Observability",
+  "Software Architecture"
+];
+---
+
+<BaseLayout lang={lang} activeNav="about" title={t.sections.aboutTitle} path="about/">
+  <section class="mt-10 md:mt-14">
+    <SectionHeading title={t.about.heading} description={t.about.intro} />
+
+    <div class="surface p-6 md:p-8">
+      <ul class="space-y-4">
+        {
+          t.about.highlights.map((item) => (
+            <li class="surface-soft px-4 py-3 text-sm md:text-base" style="color:var(--text);">
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-8">
+        <h3 class="text-muted text-sm font-semibold uppercase tracking-[0.2em]">Stack</h3>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {
+            expertise.map((item) => (
+              <span class="chip font-medium">
+                {item}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f8f8f8;
+  --surface: #ffffff;
+  --surface-soft: #f3f3f3;
+  --text: #111111;
+  --muted: #4d4d4d;
+  --border: #e4e4e4;
+  --code-bg: #f1f1f1;
+  color-scheme: light;
+}
+
+html.dark {
+  --bg: #0b0b0b;
+  --surface: #111111;
+  --surface-soft: #151515;
+  --text: #f5f5f5;
+  --muted: #b2b2b2;
+  --border: #2a2a2a;
+  --code-bg: #161616;
+  color-scheme: dark;
+}
+
+body {
+  @apply antialiased;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  @apply transition-colors duration-200 ease-out;
+}
+
+.surface {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  @apply rounded-xl;
+}
+
+.surface-soft {
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border);
+  @apply rounded-xl;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.chip {
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border);
+  @apply rounded-full px-3 py-1 text-xs;
+}
+
+.btn {
+  @apply inline-flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold;
+}
+
+.btn-solid {
+  background-color: var(--text);
+  color: var(--bg);
+}
+
+.btn-solid:hover {
+  opacity: 0.88;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  background-color: var(--surface-soft);
+}
+
+.prose-custom {
+  @apply max-w-none;
+  color: var(--text);
+}
+
+.prose-custom h2,
+.prose-custom h3 {
+  @apply mt-10;
+  color: var(--text);
+}
+
+.prose-custom p,
+.prose-custom li {
+  @apply leading-8;
+  color: var(--muted);
+}
+
+.prose-custom strong {
+  color: var(--text);
+}
+
+.prose-custom code {
+  background-color: var(--code-bg);
+  color: var(--text);
+  @apply rounded-md px-1.5 py-1 font-mono text-sm;
+}
+
+.prose-custom pre {
+  background-color: var(--code-bg);
+  border: 1px solid var(--border);
+  @apply my-6 overflow-x-auto rounded-xl p-4;
+}
+
+.prose-custom pre code {
+  @apply bg-transparent p-0 text-sm;
+  color: var(--text);
+}
