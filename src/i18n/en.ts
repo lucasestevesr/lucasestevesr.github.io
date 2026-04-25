@@ -36,7 +36,7 @@ const en: Translation = {
   about: {
     heading: "my experience as a software engineer",
     intro:
-      "Hey, Lucas here. I'm the developer who still dreams about living close to nature, haha. When I'm not coding, I like to picture myself outdoors, chasing some adventure.",
+      "Hey, Lucas here. I'm that kind of developer who still dreams about living close to nature, haha. When I'm not dealing with tech, I like to picture myself outdoors, chasing some adventure.",
     photoAlt: "Profile photo of Lucas Esteves",
     highlights: [
       "I have a degree from UFJF and I'm currently taking a postgraduate program in Software Architecture at FIAP.",
