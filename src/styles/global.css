@@ -97,6 +97,13 @@ a {
   color: var(--text);
 }
 
+.prose-custom h4 {
+  @apply mt-8 rounded-md px-3 py-2 text-lg font-extrabold tracking-wide;
+  background-color: var(--surface-soft);
+  border-left: 4px solid var(--text);
+  color: var(--text);
+}
+
 .prose-custom p,
 .prose-custom li {
   @apply leading-8;
@@ -122,4 +129,27 @@ a {
 .prose-custom pre code {
   @apply bg-transparent p-0 text-sm;
   color: var(--text);
+}
+
+.prose-custom .mermaid {
+  background-color: var(--code-bg);
+  border: 1px solid var(--border);
+  @apply my-6 overflow-x-auto rounded-xl p-4;
+}
+
+.prose-custom .mermaid svg {
+  @apply mx-auto;
+}
+
+.prose-custom a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  word-break: break-word;
+}
+
+.prose-custom a:hover {
+  opacity: 0.78;
 }

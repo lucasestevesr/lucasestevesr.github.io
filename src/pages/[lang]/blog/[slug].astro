@@ -72,4 +72,29 @@ const readingTime = getReadingTime(post.body);
       <Content />
     </div>
   </article>
+
+  <script type="module" is:inline>
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    const mermaidBlocks = document.querySelectorAll(".prose-custom pre code.language-mermaid");
+
+    if (mermaidBlocks.length > 0) {
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "loose"
+      });
+
+      mermaidBlocks.forEach((block) => {
+        const pre = block.closest("pre");
+        if (!pre) return;
+
+        const container = document.createElement("div");
+        container.className = "mermaid";
+        container.textContent = block.textContent ?? "";
+        pre.replaceWith(container);
+      });
+
+      mermaid.run({ querySelector: ".prose-custom .mermaid" });
+    }
+  </script>
 </BaseLayout>
