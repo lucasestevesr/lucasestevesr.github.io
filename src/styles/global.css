@@ -131,6 +131,11 @@ a {
   color: var(--text);
 }
 
+.prose-custom pre code .line {
+  display: block;
+  line-height: 1.65;
+}
+
 .prose-custom .mermaid {
   background-color: var(--code-bg);
   border: 1px solid var(--border);

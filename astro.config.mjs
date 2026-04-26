@@ -22,7 +22,7 @@ export default defineConfig({
         light: "github-light",
         dark: "github-dark"
       },
-      wrap: true
+      wrap: false
     }
   }
 });
