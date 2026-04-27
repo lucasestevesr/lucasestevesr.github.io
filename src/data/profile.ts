@@ -1,6 +1,6 @@
 export const profile = {
   name: "Lucas Esteves",
-  email: "mailto:lucas.esteves.dev@gmail.com",
+  email: "mailto:esteveslucasreis@gmail.com",
   github: "https://github.com/lucasestevesr",
   linkedin: "https://www.linkedin.com/in/lucasestevesr",
   resume: "/resume.pdf",
